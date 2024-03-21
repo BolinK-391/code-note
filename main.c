@@ -1,0 +1,24 @@
+#include <string.h>
+#include "windows.h"
+#include <stdio.h>
+
+int main() {
+
+    char arr1[] ="Rusty Lake";
+    char arr2[] ="          ";
+    int left = 0;
+    int right = strlen(arr1) - 1;
+    while(left<=right)
+    {
+        arr2[left]= arr1[left];
+        arr2[right]= arr1[right];
+        printf("%s\n",arr2);
+        Sleep(1000);//眠1秒
+        system("cls");//清空屏幕
+        right--;
+        left++;
+    }
+    printf("%s\n",arr2);
+}
+//调用system("cls")函数的过程中会出现异常显示，
+// 只需选择在外部控制台中运行即可正常运行。
