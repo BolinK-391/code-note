@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
-void change(int *pa,int *pb)//形式参数（形参）
+void change(int *pa,int *pb)//形式参数（形参）  
+//没被调用的时候内存没有分配空间给它，是个摆设，被调用以后才会有内存分配给他。出函数后被销毁。
 {
     int t = *pa;
     *pa = *pb;
@@ -14,6 +15,8 @@ int main ()
     printf("%d%d",a,b);
     change(&a,&b);//实际参数（实参）
 //这里不用指针的话，变量a、b进入函数change地址会发生改变，不是原来的&a、&b。
+//change在被调用的时候，实参传给形参，其实形参是实参的一份临时拷贝。
+//改变形参，不能改变实参。
     printf("\n%d%d",a,b);
     return 0;
 }
