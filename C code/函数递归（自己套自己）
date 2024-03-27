@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "string.h"
-//º¯ÊýµÝ¹é
+//å‡½æ•°é€’å½’
 void change(char* a){
     char null = *a;
     int len = strlen(a);
