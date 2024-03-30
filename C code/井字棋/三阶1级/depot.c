@@ -33,11 +33,11 @@ void PlayerMove(char board[ROW][COL],int row,int col){
     printf("\nYou($):");
     while(1) {
         scanf("%1d%1d", &x, &y);
-        //ÔÚ%dµÄdÇ°Ãæ¼ÓÉÏÊý×Ö¿ÉÒÔÓÐÐ§¿ØÖÆÊäÈëÊý¾ÝµÄ¿í¶È
-        //ÅÐ¶Ï×ø±êºÏ·¨ÐÔ
+        //åœ¨%dçš„då‰é¢åŠ ä¸Šæ•°å­—å¯ä»¥æœ‰æ•ˆæŽ§åˆ¶è¾“å…¥æ•°æ®çš„å®½åº¦
+        //åˆ¤æ–­åæ ‡åˆæ³•æ€§
         if (x >= 1 && x <= row && y >= 1 && y <= col) {
-            //ÏÂÆå
-            //ÅÐ¶Ï×ø±êÊÇ·ñ±»Õ¼ÓÃ
+            //ä¸‹æ£‹
+            //åˆ¤æ–­åæ ‡æ˜¯å¦è¢«å ç”¨
             if(board[x-1][y-1] == ' '){
                 board[x-1][y-1] = '$';
                 break;
@@ -57,7 +57,7 @@ void ComputerMove(char board[ROW][COL],int row,int col){
         int x = rand() % row;
         int y = rand() % col;
 
-        //ÅÐ¶ÏÕ¼ÓÃ
+        //åˆ¤æ–­å ç”¨
         if (board[x][y] == ' ') {
             board[x][y] = '#';
             break;
@@ -71,31 +71,31 @@ int IsFull(char board[ROW][COL],int row,int col){
     for (i=0;i<row;i++){
         for (j=0;j<col;j++){
             if(board[i][j]==' '){
-                return 0;}//ÆåÅÌÃ»Âú
+                return 0;}//æ£‹ç›˜æ²¡æ»¡
         }
     }
-    return 2;//ÆåÅÌÂúÁË
+    return 2;//æ£‹ç›˜æ»¡äº†
 }
 
 char IsWin(char board[ROW][COL],int row,int col){
     int i = 0;
-    //ÅÐ¶ÏÈýÐÐ
+    //åˆ¤æ–­ä¸‰è¡Œ
     for (i=0;i<row;i++){
         if(board[i][0]==board[i][1] && board[i][1]==board[i][2] && board[i][1]!=' ')
         return board[i][1];
     }
-    //ÅÐ¶ÏÈýÁÐ
+    //åˆ¤æ–­ä¸‰åˆ—
     for (i=0;i<col;i++){
         if(board[0][i]==board[1][i] && board[1][i]==board[2][i] && board[1][i]!=' ')
         return board[1][i];
     }
-    //ÅÐ¶Ï¶Ô½ÇÏß
+    //åˆ¤æ–­å¯¹è§’çº¿
     if(board[0][0]==board[1][1] && board[1][1]==board[2][2] && board[1][1]!=' ')
         return board[1][1];
     if(board[0][2]==board[1][1] && board[1][1]==board[2][0] && board[1][1]!=' ')
         return board[1][1];
-    //ÅÐ¶ÏÆ½¾Ö
-    //Èç¹ûÆåÅÌÂúÁË·µ»Ø1£¬²»Âú·µ»Ø0
+    //åˆ¤æ–­å¹³å±€
+    //å¦‚æžœæ£‹ç›˜æ»¡äº†è¿”å›ž1ï¼Œä¸æ»¡è¿”å›ž0
     int ret = IsFull(board,row,col);
     if(ret == 2)
         return 'Q';
