@@ -1,22 +1,22 @@
 #include "game.h"
 void game(){
-    //´æ´¢Êı¾İ - ¶şÎ¬Êı×é
+    //å­˜å‚¨æ•°æ® - äºŒç»´æ•°ç»„
     char mine[ROWS][COLS];
     char show[ROWS][COLS];
     char strategy[ROWS][COLS];
-    //³õÊ¼»¯ÆåÅÌ - ³õÊ¼»¯¿Õ¸ñ
+    //åˆå§‹åŒ–æ£‹ç›˜ - åˆå§‹åŒ–ç©ºæ ¼
     InitBoard(mine,ROWS,COLS,'0');
     InitBoard(show,ROWS,COLS,' ');
     InitBoard(strategy,ROWS,COLS,'-');
-    //´òÓ¡ÆåÅÌ - ±¾ÖÊÊÇ´òÓ¡Êı×éµÄÄÚÈİ
+    //æ‰“å°æ£‹ç›˜ - æœ¬è´¨æ˜¯æ‰“å°æ•°ç»„çš„å†…å®¹
     //Displayboard(mine,ROW,COL);
     Displayboard_show(show,ROW,COL);
 
-    //²¼ÖÃÀ×
+    //å¸ƒç½®é›·
     SetMine(mine,ROW,COL);
     //Displayboard_mine(mine,ROW,COL);
 
-    //ÅÅ²éÀ×
+    //æ’æŸ¥é›·
     FindMine(mine,show,strategy,ROW,COL);
 }
 
@@ -77,19 +77,19 @@ int main(){
     do{
         menu();
         do{
-            printf("ÇëÑ¡Ôñ£º");
+            printf("è¯·é€‰æ‹©ï¼š");
             scanf("%d",&input);
 
             switch (input) {
                 case 1:
-                    printf("\nÉ¨À×ÓÎÏ·\n");
+                    printf("\næ‰«é›·æ¸¸æˆ\n");
                     game();
                     break;
                 case 0:
-                    printf("\nÍË³öÓÎÏ·\n");
+                    printf("\né€€å‡ºæ¸¸æˆ\n");
                     return 0;
                 default:{
-                    printf("\nÑ¡Ôñ´íÎó£¬ÖØĞÂÑ¡Ôñ\n");
+                    printf("\né€‰æ‹©é”™è¯¯ï¼Œé‡æ–°é€‰æ‹©\n");
                     test = 3;
                     break;}
             }
@@ -100,5 +100,5 @@ int main(){
     }
     while(strcmp(&aga,str1)==0);
 }
-
-//µİ¹é(³ÊÕ¨¿ªÊ½)
+//æ¯”è¾ƒä¸¤ä¸ªå­—ç¬¦ä¸²ç›¸ç­‰ ä¸èƒ½ä½¿ç”¨ ==
+//é€’å½’(å‘ˆç‚¸å¼€å¼)
