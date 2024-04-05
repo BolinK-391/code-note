@@ -36,7 +36,6 @@ int fuction_2(int n){
 
 int fuction_3(int n){
     int count = 0;
-    int i = 0;
    while(n){
        n = n & (n-1);//会去掉n的二进制序列里的最后一个1 [ 重点表达式 ]
        count++;
