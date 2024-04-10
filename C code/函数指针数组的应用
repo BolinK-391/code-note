@@ -1,6 +1,6 @@
 #include "stdio.h"
-//º¯ÊıÖ¸ÕëÊı×éµÄÓ¦ÓÃ
-//¼ÆËãÆ÷ - ¼ÆËãÕûĞÍ±äÁ¿µÄ¼Ó¡¢¼õ¡¢³Ë¡¢³ı
+//å‡½æ•°æŒ‡é’ˆæ•°ç»„çš„åº”ç”¨
+//è®¡ç®—å™¨ - è®¡ç®—æ•´å‹å˜é‡çš„åŠ ã€å‡ã€ä¹˜ã€é™¤
 
 int Add(int x,int y){
     return x+y;
@@ -21,12 +21,12 @@ int main(){
         int x = 0;
         int y = 0;
         int ret = 0;
-        printf("ÇëÑ¡Ôñ³ÌĞò£º");
+        printf("è¯·é€‰æ‹©ç¨‹åºï¼š");
         scanf("%d",&input);
         int (*pfArr[5])(int,int) = {NULL,Add,Sub,Mul,Div};
-        //º¯ÊıÖ¸ÕëÊı×é
+        //å‡½æ•°æŒ‡é’ˆæ•°ç»„
         if(input >= 1 && input <=4){
-        printf("ÇëÑ¡ÔñÊı×Ö£º");
+        printf("è¯·é€‰æ‹©æ•°å­—ï¼š");
         scanf("%d %d",&x,&y);
         ret = (pfArr[input])(x,y);
         printf("ret = %d\n",ret);
