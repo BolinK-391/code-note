@@ -1,0 +1,40 @@
+#include "stdio.h"
+//函数指针数组的应用
+//计算器 - 计算整型变量的加、减、乘、除
+
+int Add(int x,int y){
+    return x+y;
+}
+int Sub(int x,int y){
+    return x-y;
+}
+int Mul(int x,int y){
+    return x*y;
+}
+int Div(int x,int y){
+    return x/y;
+}
+
+int main(){
+    int input = 0;
+    do{
+        int x = 0;
+        int y = 0;
+        int ret = 0;
+        printf("请选择程序：");
+        scanf("%d",&input);
+        int (*pfArr[5])(int,int) = {NULL,Add,Sub,Mul,Div};
+        //函数指针数组
+        if(input >= 1 && input <=4){
+        printf("请选择数字：");
+        scanf("%d %d",&x,&y);
+        ret = (pfArr[input])(x,y);
+        printf("ret = %d\n",ret);
+        }
+        else if(input == 0) break;
+        else
+            ;
+
+    }while(input);
+    return 0;
+}
