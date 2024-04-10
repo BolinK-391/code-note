@@ -1,0 +1,49 @@
+#include "stdio.h"
+//回调函数的应用
+//计算器 - 计算整型变量的加、减、乘、除
+
+void Calc(int (*pf)(int,int))//回调函数（这里的参数是函数指针）
+{
+    int x = 0;
+    int y = 0;
+    printf("请选择数字：");
+    scanf("%d %d",&x,&y);
+    int ret = 0;
+    ret = pf(x,y);//通过pf调用Add函数
+    printf("ret = %d\n",ret);
+}
+
+int Add(int x,int y){
+    return x+y;
+}
+int Sub(int x,int y){
+    return x-y;
+}
+int Mul(int x,int y){
+    return x*y;
+}
+int Div(int x,int y){
+    return x/y;
+}
+
+int main(){
+    int input = 0;
+    do{
+
+        int ret = 0;
+        printf("请选择程序：");
+        scanf("%d",&input);
+        switch (input) {
+            case 1:Calc(Add);break;//传入Add函数指针
+            case 2:Calc(Sub);break;
+            case 3:Calc(Mul);break;
+            case 4:Calc(Div);break;
+        }
+
+    }while(input);
+    return 0;
+}
+
+//回调函数就是一个通过函数指针调用的函数。如果你把函数的指针（地址）作为参数传递给另一个函数，
+//当这个指针被用来调用其所指向的函数时，我们就说这是回调函数。
+//回调函数不是由该函数的实现方直接调用，而是在特定的事件或条件发生时由另外的一方调用的，用于对该事件或条件进行响应。
