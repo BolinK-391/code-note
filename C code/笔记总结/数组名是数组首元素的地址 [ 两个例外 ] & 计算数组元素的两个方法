@@ -48,7 +48,9 @@ strlen(a)会输出1 [ strlen函数遇到0会停止计算个数 ]
                                                                                                            05 00 00 00
 
 
+
 #include "stdio.h"
+#include "string.h"
 
 int main()
 {
@@ -58,5 +60,26 @@ int main()
     printf("%d\n",sizeof(*&arr)); //输出7
 
     printf("%d\n",sizeof(*arr)); //输出1
+    return 0;
+}
+
+
+
+int main()
+{
+    char arr[] = "abcdef";
+    //[a b c d e f \0]
+    printf("%d\n",strlen(arr));//输出6
+
+    printf("%d\n",strlen(*&arr));//不会报错，输出6
+
+    printf("%d\n",strlen(&arr));//输出6
+
+    //printf("%d\n",strlen(*arr));会报错
+
+    printf("%d\n",strlen(&arr + 1));//跳到\0后面，是随机值
+
+    printf("%d\n",strlen(&arr[0] + 1));//从b开始一直向后数到'\0',输出5
+
     return 0;
 }
