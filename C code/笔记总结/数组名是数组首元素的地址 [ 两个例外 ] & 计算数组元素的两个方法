@@ -50,9 +50,9 @@ strlen(a)会输出1 [ strlen函数遇到0会停止计算个数 ]
 
 #include "stdio.h"
 
-int main(){
-    char arr[] = "abcdef";
-    //[a b c d e f \0]
+int main()
+{
+    char arr[] = "abcdef"; //[a b c d e f \0]
     printf("%d\n",sizeof(arr)); //输出7
 
     printf("%d\n",sizeof(*&arr)); //输出7
