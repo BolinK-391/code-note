@@ -52,6 +52,7 @@ strlen(a)会输出1 [ strlen函数遇到0会停止计算个数 ]
 #include "stdio.h"
 #include "string.h"
 
+>>> sizeof ( )
 int main()
 {
     char arr[] = "abcdef"; //[a b c d e f \0]
@@ -63,8 +64,21 @@ int main()
     return 0;
 }
 
+int main(){
+    char* p = "abcdef";
+    //[a b c d e f \0]
+    printf("%d\n",sizeof(p));//输出4
+
+    printf("%d\n",sizeof(*p));//输出1
+
+    printf("%d\n",sizeof(p[0]));//p[0] --> *(p+0)，算的是元素的大小，输出1
+
+    printf("%d\n",sizeof(&p));//输出4
+    return 0;
+}
 
 
+>>> strlen ( )
 int main()
 {
     char arr[] = "abcdef";
