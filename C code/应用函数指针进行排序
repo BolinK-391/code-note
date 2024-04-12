@@ -5,12 +5,10 @@
 //唯一需要用户自己定义的就是比较函数，比较函数定义后直接传给bubble_sort进行自动排序（升序）
 //降序只需要把自己定义的比较函数cmp进行return前后对调
 
-int cmp(const void* e1,const void* e2){
+int cmp(const void* e1,const void* e2)//void* p 无具体类型，可以存放任意类型的指针变量
+                                      //缺点：不能直接解引用（只有强制类型转换以后才能解引用）
+{
     return *(int*)e1 - *(int*)e2;
-}
-
-int cmp_char(const void* e1,const void* e2){
-    return strcmp((char*)e1,(char*)e2);
 }
 
 void Swap(char*e1,char*e2,int width){
