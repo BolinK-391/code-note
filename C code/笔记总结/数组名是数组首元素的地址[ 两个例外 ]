@@ -1,0 +1,47 @@
+>>数组名是数组首元素的地址
+
+     但是有两个例外
+
+1.sizeof(数组名) - 数组名表示整个数组，计算的是整个数组大小，单位是字节
+2. &数组名 - 数组名表示整个数组，取出的是整个数组的地址
+
+计算数组元素个数  len = sizeof（arr）/  sizeof（arr[0]）
+
+——  > sizeof 是操作符，计算变量（类型）所占内存空间的大小，单位是字节，不关注内存中存放的内容
+
+——  > strlen 是库函数，使用时需要引头文件，专门求字符串长度，只能针对字符串，向后一直找\0，统计\0之前出现的字符个数 
+
+#include "stdio.h"
+#include "string.h"
+
+int main(){
+    char a [1000] = {1,2,3,0,4,5};
+
+    printf("%d",strlen(a));
+    return 0;
+}
+
+strlen(a)会输出3 [ strlen函数遇到0会停止计算个数 ]
+
+
+#include "stdio.h"
+#include "string.h"
+int main(){
+    int a [1000] = {1,2,3,0,4,5};
+
+    printf("%d",strlen(a));
+    return 0;
+}
+
+警告：Incompatible pointer types passing 'int[1000]' to parameter of type 'const char *' 
+[ 将“int[1000]”传递给“const char*”类型的参数的指针类型不兼容 ]
+
+strlen(a)会输出1 [ strlen函数遇到0会停止计算个数 ]
+
+发生这样的输出差距是因为数据在内存中存储的方式不同：     char  01 02 03 00 04 05
+                                                                                                      int  01 00 00 00
+                                                                                                           02 00 00 00 
+                                                                                                           03 00 00 00  
+                                                                                                           00 00 00 00   
+                                                                                                           04 00 00 00  
+                                                                                                           05 00 00 00
