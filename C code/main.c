@@ -1,0 +1,80 @@
+#include "stdio.h"
+#include "string.h"
+
+//模仿qsort实现一个冒泡排序的通用算法
+//唯一需要用户自己定义的就是比较函数，比较函数定义后直接传给bubble_sort进行自动排序（升序）
+//降序只需要把自己定义的比较函数cmp进行return前后对调
+
+int cmp(const void* e1,const void* e2){
+    return *(int*)e1 - *(int*)e2;
+}
+
+int cmp_char(const void* e1,const void* e2){
+    return strcmp((char*)e1,(char*)e2);
+}
+
+void Swap(char*e1,char*e2,int width){
+    int i = 0;
+    for(i = 0;i < width;i++){
+        char tmp = *e1;
+        *e1 = *e2;
+        *e2 = tmp;
+        e1++;
+        e2++;
+    }
+}
+
+void bubble_sort(void* base,
+                 int sz,
+                 int width,
+                 int(*cmp)(const void*e1,const void*e2))
+{
+    int i = 0;
+    //趟数
+    for(i = 0 ; i < sz -1;i++ ){
+        //一趟的排序
+        int j = 0;
+        for(j = 0;j < sz - 1 - i;j++){
+            //两个元素比较
+            //arr[j] arr[j+1]
+            if(cmp((char*)base+j*width,(char*)base+(j+1)*width)>0){
+                Swap((char*)base+j*width,(char*)base+(j+1)*width,width);
+            }
+        }
+    }
+}
+
+void print_arr(char arr[],int sz){
+    int i = 0;
+    for(i = 0;i <sz;i++){
+        printf("%c ",arr[i]);
+    }
+    printf("\n");
+}
+
+int main(){
+    char arr[5] = {0};
+    int i = 0;
+    for(i = 0;i<5;i++){
+        scanf("%c",&arr[i]);
+        //注意：这里应该是%c而不能写作%s，不然程序无法运行
+    }
+    int sz = sizeof(arr)/sizeof(arr[0]);
+    bubble_sort(arr,sz,sizeof(arr[0]),cmp_char);
+    print_arr(arr,sz);
+}
+
+
+//%c格式对应的是单个字符。
+//%s格式对应的是字符串。
+
+//char和char*
+//%c对应类型为char
+//%s对应类型为char * , 即字符串。
+
+//用作输入时, 二者参数都要传char * 型.
+//%c输入函数只会对一个字节空间赋值. 而%s会一直赋值,直到输入中遇到空白字符为止.
+//用作输出时, %c传char类型,输出一个字符. %s传char*类型参数, 输出到\0为止.
+
+//输入的时候scanf("%c", &a);这里的&不能少
+//而scanf("%s",s);这里不能有&符号
