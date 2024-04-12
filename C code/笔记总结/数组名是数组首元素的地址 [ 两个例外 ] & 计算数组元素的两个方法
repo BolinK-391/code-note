@@ -97,3 +97,16 @@ int main()
 
     return 0;
 }
+
+int main(){
+    char* p = "abcdef";
+    //[a b c d e f \0]
+    printf("%d\n",strlen(p));//输出6
+
+    //printf("%d\n",strlen(*p));//会报错
+
+    printf("%d\n",strlen(&p[0]+1));//p[0] --> *(p+0)，取b的地址，输出5
+
+    printf("%d\n",strlen(p+1));//输出5
+    return 0;
+}
