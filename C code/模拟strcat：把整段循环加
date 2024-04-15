@@ -3,15 +3,15 @@
 char* my_strcat(char* dest,const char*src)
 {
     char*ret = dest;
-    //1.ÕÒÄ¿±ê×Ö·û´®ÖĞµÄ\0
+    //1.æ‰¾ç›®æ ‡å­—ç¬¦ä¸²ä¸­çš„\0
     while(*dest){
         dest++;
     }
     while(*dest++ = *src++){
         ;
-        // '\0'ASCIIÂëÎª0-->¼Ù
+        // '\0'ASCIIç ä¸º0-->å‡
     }
-    return ret;//·µ»ØµÄÄ¿±ê¿Õ¼äµÄÆğÊ¼µØÖ·
+    return ret;//è¿”å›çš„ç›®æ ‡ç©ºé—´çš„èµ·å§‹åœ°å€
 }
 int main(){
     char arr1[20] = "hello ";
