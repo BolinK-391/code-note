@@ -24,7 +24,7 @@ char* my_strstr(const char* str1,const char* str2){
 int main(){
     char arr1[] = "abcdefabcdef";
     char arr2[] = "bcdq";
-    //在arr1中查找是否包含arr2数组
+    //脭脷arr1脰脨虏茅脮脪脢脟路帽掳眉潞卢arr2脢媒脳茅
     char* ret = my_strstr(arr1,arr2);
     if(ret == NULL)
         printf("no\n");
