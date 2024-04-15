@@ -1,0 +1,28 @@
+#include "stdio.h"
+
+int my_strcmp(const char* s1,const char*s2)
+{
+    while(*s1 == *s2){
+        if(*s1 == '\0'){
+            return 0;
+        }
+        s1++;
+        s2++;
+    }
+    return *s1 - *s2;
+}
+int main(){
+    char arr1[] = "hello";
+    char arr2[] = "hello kitty";
+
+    int ret = my_strcmp(arr1,arr2);
+    printf("%d\n",ret);
+
+    if(ret > 0)
+        printf("arr1 > arr2");
+    else if(ret < 0)
+        printf("arr1 < arr2");
+    else
+        printf("arr1 = arr2");
+    return 0; 
+}
