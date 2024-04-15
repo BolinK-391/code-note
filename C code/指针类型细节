@@ -1,17 +1,17 @@
 #include "stdio.h"
 
-//126.Ö¸ÕëÀàÐÍ3
+//126.æŒ‡é’ˆç±»åž‹3
 int main()
 {
     char *c[] = {"ENTER","NEW","POINT","FIRST"};
 
     char**cp[] = {c+3,c+2,c+1,c};
 
-    char***cpp = cp;//cpp ++ ºÍ -- »á¸Ä±äcpp±¾ÉíµÄÖµ
+    char***cpp = cp;//cpp ++ å’Œ -- ä¼šæ”¹å˜cppæœ¬èº«çš„å€¼
 
     printf("%s\n", **++cpp);//point   //*cpp = c+2
 
-    printf("%s\n", *--*++cpp+3);//++cpp --> c+1 --> ½âÒýÓÃºó --> c     //ER
+    printf("%s\n", *--*++cpp+3);//++cpp --> c+1 --> è§£å¼•ç”¨åŽ --> c     //ER
 
     printf("%s\n", *cpp[-2]+3);           //ST
 
