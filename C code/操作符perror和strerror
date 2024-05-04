@@ -2,7 +2,7 @@
 int main(){
     FILE* pf = fopen("test.txt","r");
     if(pf == NULL){
-        perror("fopen");//同strerror但是这个可以自动打印
+        perror("fopen");//鍚宻trerror浣嗘槸杩欎釜鍙互鑷姩鎵撳嵃
     }
     fclose(pf);
     pf = NULL;
