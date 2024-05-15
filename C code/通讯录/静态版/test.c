@@ -1,12 +1,12 @@
- //Í¨Ñ¶Â¼
- //1.Í¨Ñ¶Â¼ÖĞÄÜ¹»´æ·Å1000¸öÈËµÄĞÅÏ¢
- //Ã¿¸öÈËµÄĞÅÏ¢£º
- //Ãû×Ö+ÄêÁä+ĞÔ±ğ+µç»°+µØÖ·
- //2.Ôö¼ÓÈËµÄĞÅÏ¢
- //3.É¾³ıÖ¸¶¨ÈËµÄĞÅÏ¢
- //4.ĞŞ¸ÄÖ¸¶¨ÈËµÄĞÅÏ¢
- //5.²éÕÒÖ¸¶¨ÈËµÄĞÅÏ¢
- //6.ÅÅĞòÍ¨Ñ¶Â¼µÄĞÅÏ¢
+ //é€šè®¯å½•
+ //1.é€šè®¯å½•ä¸­èƒ½å¤Ÿå­˜æ”¾1000ä¸ªäººçš„ä¿¡æ¯
+ //æ¯ä¸ªäººçš„ä¿¡æ¯ï¼š
+ //åå­—+å¹´é¾„+æ€§åˆ«+ç”µè¯+åœ°å€
+ //2.å¢åŠ äººçš„ä¿¡æ¯
+ //3.åˆ é™¤æŒ‡å®šäººçš„ä¿¡æ¯
+ //4.ä¿®æ”¹æŒ‡å®šäººçš„ä¿¡æ¯
+ //5.æŸ¥æ‰¾æŒ‡å®šäººçš„ä¿¡æ¯
+ //6.æ’åºé€šè®¯å½•çš„ä¿¡æ¯
 #include "test.h"
 void InitContact(Contact* pc){
     pc->sz = 0;
@@ -18,7 +18,7 @@ void AddContact(Contact* pc){
         printf("FULL\n");
         return;
     }
-    //Ôö¼ÓÒ»¸öÈËµÄĞÅÏ¢
+    //å¢åŠ ä¸€ä¸ªäººçš„ä¿¡æ¯
      printf("name:");
      scanf("%s",pc->data[pc->sz].name);
      printf("age:");
@@ -35,9 +35,9 @@ void AddContact(Contact* pc){
 
 void PrintContact(const Contact* pc){
     int i = 0;
-    //´òÓ¡±êÌâ
+    //æ‰“å°æ ‡é¢˜
      printf("%-10s\t%-5s\t%-5s\t%-12s\t%-20s\n","name","age","gender","phone number","address");
-    //´òÓ¡Êı¾İ
+    //æ‰“å°æ•°æ®
     for(i=0;i<pc->sz;i++){
         printf("%-10s\t%-5d\t%-5s\t%-12s\t%-20s\n",
                pc->data[i].name,
@@ -55,7 +55,7 @@ static int FindByName(Contact* pc,char name[]){
             return i;
         }
     }
-    return -1;//ÕÒ²»µ½
+    return -1;//æ‰¾ä¸åˆ°
 }
 
 void DelContact(Contact* pc){
@@ -67,13 +67,13 @@ void DelContact(Contact* pc){
     }
      printf("name:");
     scanf("%s",name);
-    //1.²éÕÒÒªÉ¾³ıµÄÈË
-    //ÓĞ/Ã»ÓĞ
+    //1.æŸ¥æ‰¾è¦åˆ é™¤çš„äºº
+    //æœ‰/æ²¡æœ‰
     int pos = FindByName(pc,name);
     if(pos == -1){
         printf("non-existent\n");
         return;}
-    //É¾³ı
+    //åˆ é™¤
     int i = 0;
     for(i=pos;i<pc->sz-1;i++){
        pc->data[i] = pc->data[i+1];
@@ -87,15 +87,15 @@ void SearchContact(Contact* pc){
 
     printf("name:");
     scanf("%s",name);
-    //1.²éÕÒÈË
-    //ÓĞ/Ã»ÓĞ
+    //1.æŸ¥æ‰¾äºº
+    //æœ‰/æ²¡æœ‰
     int pos = FindByName(pc,name);
     if(pos == -1){
         printf("non-existent\n");
         return;}
     else{
         printf("%-10s\t%-5s\t%-5s\t%-12s\t%-20s\n","name","age","gender","phone number","address");
-        //´òÓ¡Êı¾İ
+        //æ‰“å°æ•°æ®
             printf("%-10s\t%-5d\t%-5s\t%-12s\t%-20s\n",
                    pc->data[pos].name,
                    pc->data[pos].age,
@@ -110,8 +110,8 @@ void SearchContact(Contact* pc){
 
      printf("name:");
      scanf("%s",name);
-     //1.²éÕÒÈË
-     //ÓĞ/Ã»ÓĞ
+     //1.æŸ¥æ‰¾äºº
+     //æœ‰/æ²¡æœ‰
      int pos = FindByName(pc,name);
      if(pos == -1){
          printf("non-existent\n");
@@ -147,4 +147,5 @@ void SearchContact(Contact* pc){
              }
          }
      }
+     printf("OK");
 }
