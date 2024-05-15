@@ -147,5 +147,5 @@ void SearchContact(Contact* pc){
              }
          }
      }
-     printf("OK");
+     printf("OK\n");
 }
