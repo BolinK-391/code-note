@@ -31,6 +31,8 @@ bool hasCycle(struct ListNode *head)
 
 证明快指针是如何追上慢指针的？
 如果慢指针一次走一步，快指针一次走三步行不行？四步呢？n步？
+
+
 假设慢指针进入环之后
 fast和slow之间的距离是X
 fast和slow按速度每走一次，他们之间距离缩小1步
