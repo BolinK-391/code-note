@@ -92,7 +92,7 @@ struct ListNode *detectCycle(ListNode *head)
 L+X = N*C
 L = N*C-X
 
-交点为：相遇点——交点 = 起点——交点
+交点为：相遇点 —— 交点 = 起点 —— 交点
 
 
 
