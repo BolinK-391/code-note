@@ -1,0 +1,94 @@
+//给定一个链表的头节点  head ，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。
+//如果链表中有某个节点，可以通过连续跟踪 next 指针再次到达，则链表中存在环。
+//为了表示给定链表中的环，评测系统内部使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。如果 pos 是 -1，则在该链表中没有环。
+//注意：pos 不作为参数进行传递，仅仅是为了标识链表的实际情况。
+//不允许修改 链表。
+
+//快慢指针
+
+#include <math.h>
+#include <stdio.h>
+
+struct ListNode {
+    int val;
+    struct ListNode *next;
+ };
+
+
+//方法一：转换成求两个链表的交点(从相遇点处断开，然后找交点)
+
+给你两个单链表的头节点 headA 和 headB ，请你找出并返回两个单链表相交的起始节点。如果两个链表不存在相交节点，返回 null 。
+
+typedef struct ListNode ListNode;
+struct ListNode *getIntersectionNode(struct ListNode *headA, struct ListNode *headB)
+{
+    ListNode *curA = headA;
+    int la = 0;
+    while(curA)
+    {
+        ++la;
+        curA = curA->next;
+    }
+    ListNode *curB = headB;
+    int lb = 0;
+    while(curB)
+    {
+        ++lb;
+        curB = curB->next;
+    }
+
+    ListNode *longList = headA;
+    ListNode *shortList = headB;
+    if(lb > la)
+    {
+        longList = headB;
+        shortList = headA;
+    }
+    int gap = abs(la-lb);
+    while (gap)
+    {
+        longList = longList->next;
+    }
+    while (longList)
+    {
+        if(longList == shortList)
+            return longList;
+        longList = longList->next;
+        shortList = shortList->next;
+    }
+    return NULL;
+}
+
+
+//方法二：(环的周长假设为C)
+
+struct ListNode *detectCycle(ListNode *head)
+{
+    ListNode *slow,*fast;
+    slow = fast = head;
+    while (fast && fast->next)
+    {
+        slow = slow->next;
+        fast = fast->next->next;
+        if(fast == slow)
+            break;
+    }
+    if(fast == NULL || fast->next == NULL)
+        return NULL;
+    ListNode * meet = fast;
+    while (head != meet)
+    {
+        head = head->next;
+        meet = meet->next;
+    }
+    return meet;
+
+}
+
+走的路程：
+慢指针：L+X
+快指针：L+N*C+X
+2(L+X) = L+N*C+X
+L+X = N*C
+L = N*C-X
+
