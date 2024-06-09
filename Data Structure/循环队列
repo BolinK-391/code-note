@@ -16,12 +16,12 @@
 #include <stdbool.h>
 #include <malloc.h>
 
-//typedef struct {
-//    int* _a;
-//    int _front;
-//    int _rear;
-//    int _k;
-//} MyCircularQueue;
+typedef struct {
+    int* _a;
+    int _front;
+    int _rear;
+   int _k;
+} MyCircularQueue;
 
 
 MyCircularQueue* myCircularQueueCreate(int k)
