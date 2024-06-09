@@ -72,13 +72,13 @@ QDataType QueueBack(Queue* pq)
 }
 
 //返回1是空，返回0是非空
-QDataType QueueEmpty(Queue* pq)
+int QueueEmpty(Queue* pq)
 {
     assert(pq);
     return pq->_head == NULL ? 1 : 0;
 }
 
-QDataType QueueSize(Queue* pq)
+int QueueSize(Queue* pq)
 {
     assert(pq);
 
