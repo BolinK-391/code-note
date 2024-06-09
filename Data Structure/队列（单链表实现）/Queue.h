@@ -30,6 +30,6 @@ QDataType QueueFront(Queue* pq);
 QDataType QueueBack(Queue* pq);
 
 //返回1是空，返回0是非空
-QDataType QueueEmpty(Queue* pq);
+int QueueEmpty(Queue* pq);
 
-QDataType QueueSize(Queue* pq);
+int QueueSize(Queue* pq);
