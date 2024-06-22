@@ -1,0 +1,197 @@
+快速排序是Hoare于1962年提出的一种二叉树结构的交换排序方法，其基本思想为：任取待排序元素序列中的某元素作为基准值，
+按照该排序码将待排序集合分割成两子序列，左子序列中所有元素均小于基准值，右子序列中所有元素均大于基准值，
+然后最左右子序列重复该过程，直到所有元素都排列在相应位置上为止。
+
+快速排序的特性总结：
+1. 快速排序整体的综合性能和使用场景都是比较好的，所以才敢叫快速排序
+2. 时间复杂度：O(N*logN)
+3. 空间复杂度：O(logN)
+4. 稳定性：不稳定
+
+
+// 快速排序递归实现
+
+// 快速排序hoare版本 (左右指针法)
+int PartSort1(int* a, int begin, int end)//[begin,end]
+{
+    //升序
+
+    //单趟
+    //1、左边比key小，右边比key大
+    //2、key放到他正确的位置（最终要放的位置）
+
+    //实际中无法保证选key是中位数
+    //三数取中 保证不要选到最小或者最大，让有序时变成最优
+    //最坏的情况不再会出现
+    //综合而言时间复杂度为O(N*logN)  <不是O(N^2)>
+    int midInex = GetMidIndex(a,begin,end);
+    Swap(&a[midInex],&a[end]);
+
+    int keyindex = end;
+    while(begin < end)
+    {
+        //begin找大
+
+        //选最右边的值做key
+        //那么一定要让左边begin先走
+        //这样能保证他们相遇的位置
+        //是一个比key大的位置
+
+        //选最左边的值做key
+        //同理要让右边end先走
+        //...
+
+        while(begin < end && a[begin] <= a[keyindex])
+        {
+            begin++;
+        }
+
+        while(begin < end && a[end] >= a[keyindex])
+        {
+            end--;
+        }
+
+        Swap(&a[begin],&a[end]);
+    }
+    Swap(&a[begin],&a[keyindex]);
+    return begin;
+}
+
+// 快速排序挖坑法
+int PartSort2(int* a, int begin, int end)
+{
+
+    //三数取中
+    int midInex = GetMidIndex(a,begin,end);
+    Swap(&a[midInex],&a[end]);
+
+    int hole = a[end];//坑
+    while(begin < end)
+    {
+        while(begin < end && a[begin] <= hole)
+            begin++;
+
+        //左边找到比hole大的数填进右边的坑里，begin处的位置形成新的坑
+        a[end] = a[begin];
+
+        while(begin < end && a[end] >= hole)
+            end--;
+
+        //右边找到比hole大的数填进左边的坑里，end处的位置形成新的坑
+        a[begin] = a[end];
+    }
+
+    a[begin] = hole;
+
+    return begin;
+
+}
+
+// 快速排序前后指针法
+int PartSort3(int* a, int begin, int end)
+{
+    //cur找到比key小的就停下来
+    //然后prev++，然后cur和prev位置的值交换
+
+    //这个过程像，cur找小跟prev++位置的值交换，把小的翻到左边，把大的往后推
+
+    //注意一开始的prev指针没有指向begin，还没有进场
+
+    int cur = begin;
+    int prev = begin - 1;
+
+//    //三数取中
+//    int midInex = GetMidIndex(a,begin,end);
+//    //Swap(&a[midInex],&a[end]);
+//    int key = a[midInex];
+
+    int keyindex = end;
+    while(cur < end)
+    {
+        if(a[cur] < a[keyindex] && ++prev != cur)
+            Swap(&a[prev],&a[cur]);
+        cur++;
+    }
+
+    Swap(&a[++prev],&a[keyindex]);//当cur走到end的时候表面，prev和prev之前的值都比key<end>要小了，所以把key<end>值直接排在prev后面
+
+
+    return prev;
+}
+
+//时间复杂度O(N*logN)
+//空间复杂度O(logN)  深度
+
+void QuickSort(int* a, int left, int right)
+{
+    assert(a);
+    if(left >= right)
+        return;
+
+    //优化
+    //小区间使用插入排序去排
+    //不再使用快速排序的递归排
+    //减少整体的递归次数
+    if((right - left + 1) > 10)
+    {
+        int div = PartSort3(a,left,right);
+
+        //[left,div-1] div [div+1,right]
+        QuickSort(a,left,div-1);
+        QuickSort(a,div + 1,right);
+    }
+    else
+    {
+        //小于等于10个以内的区间，不再递归排序
+
+        //插入排序
+        InsertSort(a + left, right - left + 1);
+    }
+
+}
+
+// 快速排序 非递归实现 —— 1、改循环(斐波那契数列求解) 一些简单递归才能改循环 2、栈模拟存储数据非递归
+//递归调用压栈也是后进先出，数据结构的栈也是后进先出，能达到一样的效果是因为二者的性质相同，所以所有的递归都可以改成非递归
+
+//非递归：
+//1、提高效率
+//2、递归的最大缺陷：若栈帧的深度太深，可能会导致栈溢出。因为系统栈空间一般不大，在M级别
+//   数据结构栈模拟非递归，数据是存储在堆上的，堆是G级别的空间
+
+void QuickSortNonR(int* a, int left, int right)
+{
+    //栈模拟实现 (借助栈保存区间)
+    Stack st;
+    StackInit(&st);
+
+    StackPush(&st,right);
+    StackPush(&st,left);
+
+    while(!StackEmpty(&st))
+    {
+        int begin = StackTop(&st);
+        StackPop(&st);
+        int end = StackTop(&st);
+        StackPop(&st);
+
+        //[begin,end]
+        //单趟排
+        int div = PartSort3(a,begin,end);
+        //[begin,div-1] div [div+1,end]
+
+        //入栈
+        if(div+1 < end)//至少有两个值
+        {
+            StackPush(&st,end);
+            StackPush(&st,div + 1);
+        }
+        //后进先出
+        if(begin < div-1)
+        {
+            StackPush(&st,div-1);
+            StackPush(&st,begin);
+        }
+        //先处理左区间，左区间都处理完了再处理右区间
+    }
+    StackDestroy(&st);
+}

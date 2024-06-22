@@ -1,0 +1,202 @@
+基本思想：
+归并排序（MERGE-SORT）是建立在归并操作上的一种有效的排序算法,该算法是采用分治法（Divide andConquer）的一个非常典型的应用。
+将已有序的子序列合并，得到完全有序的序列；即先使每个子序列有序，再使子序列段间有序。
+若将两个有序表合并成一个有序表，称为二路归并。
+
+归并排序的特性总结：
+1. 归并的缺点在于需要O(N)的空间复杂度，归并排序的思考更多的是解决在磁盘中的外排序问题。
+2. 时间复杂度：O(N*logN)
+3. 空间复杂度：O(N)
+4. 稳定性：稳定
+
+
+// 归并排序递归实现
+//时间复杂度：O(N*logN)
+//空间复杂度：O(logN)
+void _MergeSort(int* a,int left,int right,int* tmp)
+{
+    if(left >= right)
+        return;
+
+    int mid = (left + right) / 2;
+    //[left,mid] [mid+1,right] 有序，则可以合并，现在他们没有序，子问题解决
+    _MergeSort(a,left,mid,tmp);
+    _MergeSort(a,mid+1,right,tmp);
+    //先分到不可分割后再归并
+
+    //归并[left,mid] [mid+1,right] 有序
+    MergeArr(a,left,mid,mid+1,right,tmp);
+}
+
+void MergeSort(int* a, int n)
+{
+    assert(a);
+    int *tmp = malloc(sizeof (int)*n);
+
+    _MergeSort(a,0,n-1,tmp);
+
+    free(tmp);
+}
+
+// 归并排序非递归实现
+void MergeSortNonR(int* a, int n)
+{
+    assert(a);
+    int* tmp = malloc(sizeof (int)*n);
+    int gap = 1;
+
+    while(gap < n)
+    {
+        for (int i = 0; i < n; i += 2 * gap) {
+            //[i,i+gap) [i+2*gap)
+            //[i,i+gap-1] [i+2*gap-1]
+
+            int begin_1 = i,end_1 = i + gap -1;
+            int begin_2 = i + gap,end_2 = i + 2*gap -1;
+
+            //1、合并时只有第一组，就不需要合并
+            if(begin_2 >= n)
+                break;
+            //2、合并时只有第二组只有部分数据，需要修正end_2边界
+            if(end_2 >= n)
+                end_2 = n - 1;
+
+            MergeArr(a, begin_1, end_1, begin_2, end_2, tmp);
+        }
+        gap *= 2;
+    }
+    free(tmp);
+}
+
+void MergeArr(int* a, int begin_1, int end_1, int begin_2, int end_2, int* tmp)
+{
+    //归并[left,mid] [mid+1,right] 有序
+    int left = begin_1 , right = end_2;
+    int index = begin_1;
+    while (begin_1 <= end_1 && begin_2 <= end_2)
+    {
+        if(a[begin_1] < a[begin_2])
+            tmp[index++] = a[begin_1++];  //若 i=3 ，a[++i](先自增后读取) = a[4] ; a[i++](先读取后自增) = a[3] i=4
+        else
+            tmp[index++] = a[begin_2++];
+    }
+
+    while (begin_1 <= end_1)
+        tmp[index++] = a[begin_1++];
+
+    while (begin_2 <= end_2)
+        tmp[index++] = a[begin_2++];
+
+    //把归并好的在tmp的数据再拷贝回到原数组
+    for(int i = left;i <= right;i++)
+    {
+        a[i] = tmp[i];
+    }
+}
+
+//文件归并排序
+
+void _MergeFile(const char* file_1,const char* file_2,const char* mergeFile)
+{
+    FILE *fout1 = fopen(file_1,"r");
+    if(fout1 == NULL)
+    {
+        printf("打开文件失败\n");
+        exit(-1);
+    }
+
+    FILE *fout2 = fopen(file_1,"r");
+    if(fout2 == NULL)
+    {
+        printf("打开文件失败\n");
+        exit(-1);
+    }
+
+    FILE *fin = fopen(mergeFile,"w");
+    if(fin == NULL)
+    {
+        printf("打开文件失败\n");
+        exit(-1);
+    }
+
+    int num1,num2;
+    int ret1 = fscanf(fout1,"%d\n",&num1);
+    int ret2 = fscanf(fout2,"%d\n",&num2);
+    while (ret1 != EOF && ret2 != EOF)
+    {
+        if(num1 < num2)
+        {
+            fprintf(fin, "%d\n", num1);
+            ret1 = fscanf(fout1,"%d\n",&num1);
+        }
+        else
+        {
+            fprintf(fin, "%d\n", num2);
+            ret2 = fscanf(fout1, "%d\n", &num1);
+        }
+    }
+    while(ret1 != EOF)
+    {
+        fprintf(fin, "%d\n", num1);
+        ret1 = fscanf(fout1,"%d\n",&num1);
+    }
+    while(ret2 != EOF)
+    {
+        fprintf(fin, "%d\n", num2);
+        ret2 = fscanf(fout1, "%d\n", &num1);
+    }
+
+    fclose(fout1);
+    fclose(fout2);
+    fclose(fin);
+}
+
+const char* MergeSortFile(const char* file)
+{
+    FILE *fout = fopen(file,"r");
+    if(fout == NULL)
+    {
+        printf("打开文件失败\n");
+        exit(-1);
+    }
+
+//分割成一段一段数据，内存排序后写到小文件
+    int n = 10;
+    int a[10];
+    int i = 0;
+    int num = 0;
+    const char subfile[20];
+    int filei = 0;
+    while(fscanf(fout,"%d\n",&num) !=EOF)
+    {
+        if(i < n-1)
+            a[i++] = num;
+        else
+        {
+            a[i] = num;
+            QuickSort(a, 0, n - 1);
+            sprintf(subfile,"%d",filei++);
+            FILE *fin = fopen(subfile,"w");
+            for(int i = 0;i < n; i++)
+                fprintf(fin,"%d\n",a[i]);
+            fclose(fin);
+            i = 0;
+            memset(a,0,sizeof (int)*n);
+        }
+    }
+
+    //利用互相归并到文件，实现整体有序
+    char mergeFile[100] = "12";
+    char file_1[100] = "1";
+    char file_2[100] = "2";
+    for(int i = 2; i < n; ++i)
+    {
+        //读取file_1和file_2,进行归并出mergeFile
+        _MergeFile(file_1,file_2,mergeFile);
+
+        strcpy(file_1,mergeFile);
+        sprintf(file_2,"%d",i + 1);
+        sprintf(mergeFile,"%s%d",mergeFile,i + 1);
+    }
+    fclose(fout);
+}

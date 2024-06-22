@@ -1,0 +1,51 @@
+基本思想：
+每一次从待排序的数据元素中选出最小（或最大）的一个元素，存放在序列的起始位置，直到全部待排序的数据元素排完。
+
+直接选择排序:
+在元素集合array[i]--array[n-1]中选择关键码最大(小)的数据元素
+若它不是这组元素中的最后一个(第一个)元素，则将它与这组元素中的最后一个（第一个）元素交换
+在剩余的array[i]--array[n-2]（array[i+1]--array[n-1]）集合中，重复上述步骤，直到集合剩余1个元素
+
+直接选择排序的特性总结：
+1. 直接选择排序思考非常好理解，但是效率不是很好。实际中很少使用
+2. 时间复杂度：O(N^2)
+3. 空间复杂度：O(1)
+4. 稳定性：不稳定
+
+
+// 选择排序
+void SelectSort(int* a, int n)
+{
+    assert(a);
+
+    int begin = 0 , end = n - 1;
+    while(begin < end)
+    {
+        //在[begin,end]之间找出最小的数和最大的数的下标
+        int mini,maxi;
+        mini = maxi = begin;
+        for(int i = begin+1; i <= end; ++i)
+        {
+            if(a[i] > a[maxi])
+                maxi = i;
+            if(a[i] < a[mini])
+                mini = i;
+
+        }
+
+        //注意：这种写法下：maxi和mini、end和begin位置有重叠，交换就会出问题。
+        //Swap(&a[begin],&a[mini]);
+        //Swap(&a[end],&a[maxi]);
+
+        Swap(&a[begin],&a[mini]);
+
+        //如果max和begin位置重叠，则maxi的位置需要修正
+        if(begin == maxi)
+            maxi = mini;
+
+        Swap(&a[end],&a[maxi]);
+
+        begin++;
+        end--;
+    }
+}
