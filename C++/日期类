@@ -185,7 +185,8 @@ public:
         return n*flag;
     }
 
-    void Print()
+    //void Print() -> void Print(Date* this)
+    void Print() const  // -> void Print(const Date* this)
     {
         cout << _year << "-" << _month << "-" << _day << endl;
     }
