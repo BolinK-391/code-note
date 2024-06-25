@@ -1,0 +1,43 @@
+#include <iostream>
+using namespace std;
+
+//声明为static的类成员称为类的静态成员，用static修饰的成员变量，称之为静态成员变量；
+//用static修饰的成员函数，称之为静态成员函数。静态成员变量一定要在类外进行初始化
+
+//面试题：实现一个类，计算程序中创建出了多少个类对象。
+class A
+{
+public:
+    A() {
+        ++_scount;
+    }
+    A(const A& t)
+    {
+        ++_scount;
+    }
+    ~A()
+    {
+        --_scount;
+    }
+    static int GetACount() //没有this指针，函数中不能访问非静态的成员
+    {
+        return _scount;
+    }
+private:
+    int _a;
+    static int _scount;//声明 不是属于某个对象，是属于类的所有对象，属于这个类
+    //_scount不在对象中，_scount在静态区
+};
+int A::_scount = 0; //定义
+void TestA()
+{
+    cout << A::GetACount() << endl;
+    A a1, a2;
+    A a3(a1);
+    cout << A::GetACount() << endl;
+}
+
+int main()
+{
+    TestA();
+}
