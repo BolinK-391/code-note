@@ -1,0 +1,38 @@
+#include <iostream>
+using namespace std;
+
+//描述
+有两个日期，求两个日期之间的天数，如果两个日期是连续的我们规定他们之间的天数为两天
+输入描述：
+有多组数据，每组数据有两行，分别表示两个日期，形式为YYYYMMDD
+输出描述：
+每组数据输出一行，即日期差值
+
+int main()
+{
+    static int monthDays[13] = {0,31,28,31,30,31,30,31,31,30,31,30,31};
+    int year,month,day;
+    // 这样可以不断接收输入，直到按ctrl + c就结束
+    while(cin >> year >> month >> day)
+    {
+        int n = 0;
+        //累加1-month-1月的天数
+        for(int i = 1; i < month; ++i)
+        {
+            n += monthDays[i];
+        }
+        //累加month那个月的天数
+        n += day;
+
+        //闰年 +1天
+        if(month > 2 && ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)))
+        {
+            n += 1;
+        }
+
+        cout << n << endl;
+    }
+
+    return 0;
+
+}
