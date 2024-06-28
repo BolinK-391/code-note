@@ -31,7 +31,7 @@ public:
         int begin = 0, end = s.size()-1;
         while(begin < end)
         {
-            while(begin < end && !isCharOrNumber(s[begin]))
+            while(begin < end && !isCharOrNumber(s[begin]))  // 注意：这里如果不加 begin < end && 可能会越界
                 ++begin;
             while(begin < end && !isCharOrNumber(s[end]))
                 --end;
