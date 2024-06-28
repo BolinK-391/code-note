@@ -1,0 +1,23 @@
+#include <iostream>
+#include "string"
+using namespace std;
+
+//计算字符串最后一个单词的长度，单词以空格隔开，字符串长度小于5000。（注：字符串末尾不以空格为结尾）
+//输入描述：
+//输入一行，代表要计算的字符串，非空，长度小于5000。
+//
+//输出描述：
+//输出一个整数，表示输入字符串最后一个单词的长度。
+
+int main()
+{
+    string line;
+    // 不要使用cin>>line,因为会它遇到空格就结束了
+    // while(cin>>line)
+    while(getline(cin, line))
+    {
+        size_t pos = line.rfind(' ');
+        cout<<line.size()-pos-1<<endl;
+    }
+    return 0;
+}
