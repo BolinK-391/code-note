@@ -12,6 +12,7 @@ public:
         strcpy(_str,str);
     }
 
+
     //string s2(s1)
     //深拷贝 —— 传统写法
     string(const string& s)
@@ -26,6 +27,7 @@ public:
        string tmp(s._str);
        swap(_str,tmp._str);
     }
+
 
     //s1 = s2
     //赋值 —— 传统写法
