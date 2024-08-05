@@ -54,6 +54,8 @@ namespace my_stack
     }
 }
 
+//stack和queue都没有迭代器，因为不允许随便便利
+
 int main()
 {
     my_stack::test_stack();
