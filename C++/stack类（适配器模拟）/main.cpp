@@ -2,7 +2,7 @@
 #include <vector>
 using namespace std;
 
-namespace my_stack
+namespace my_stack //后进先出
 {
     template<class T,class Container> // <类型,容器>
     class stack
