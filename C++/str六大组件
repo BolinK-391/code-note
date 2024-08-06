@@ -1,0 +1,8 @@
+为什么会有list?
+str六大组件
+
+容器:string/vector/list/deque （序列式容器）  C++进阶：关联式容器
+适配器:stack/queue/priority queue
+选代器:iterator/const iterator/reverse iterator/const reverse iterator
+算法:sort/find/reverse
+仿函数:less/greater
