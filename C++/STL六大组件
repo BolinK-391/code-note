@@ -1,5 +1,5 @@
-为什么会有list?
-str六大组件
+STL的六大组件如下： 
+Container (容器) Adapter (适配器) Algorithm (算法) Iterator (迭代器) Function object (函数对象) Allocator (分配器
 
 容器:string/vector/list/deque （序列式容器）  C++进阶：关联式容器
 适配器:stack/queue/priority queue
