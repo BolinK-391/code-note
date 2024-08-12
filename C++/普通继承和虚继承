@@ -36,14 +36,14 @@ public:
 // 虚函数是在基类中使用 virtual 关键字声明的成员函数，它的存在允许在派生类中进行函数的重写（覆盖）。
 // 虚函数可以实现运行时的多态性，即可以在运行时根据对象的类型调用相应的函数，从而实现不同的行为。
 
-class B : virtual public A  // B类大小为8（一个虚表指针）
+class B : public A  // B类大小为8（一个虚表指针）
 {
 public:
     B(int x = 0)
     {
         cout << "B" << x << endl;
     }
-    void printA() override
+    virtual void printA()
     {
         cout << "Hello A" << endl;
     }
@@ -52,16 +52,19 @@ public:
 int main()
 {
     B b(1);
+    A a;
     b.printA();
+    cout<<sizeof(a)<<endl;
     cout<<sizeof(b)<<endl;
     return 0;
-
 }
 
 //结果：
 // A0
 // B1
 // Hello A
+// 8
+// 8
 
 
 ********************************************************************
@@ -205,13 +208,13 @@ class C : virtual public A // _d _d2  vbptr
 protected:
     int _d2;
 };
-class D : public B, public C // _d  (_d1 vbptr) (_d2 vbptr) _d3
+class D : virtual public B, public C // _d  (_d1 vbptr) (_d2 vbptr) _d3
 {
 protected:
     int _d3;
 };
 int main()
 {
-    D d;  // 可以看出 d 中除了 4个 int 还有两个 vbptr(虚基表指针，一个4字节)   所以共 24个字节
-    cout << sizeof(d) << endl; //24
+    D d;  // 可以看出 d 中除了 4个 int 还有两个 vbptr(虚基表指针，一个8字节)   所以共32个字节
+    cout << sizeof(d) << endl; //32
 }
