@@ -1,0 +1,211 @@
+#include <iostream>
+using namespace std;
+
+//
+// 1.虚函数，
+// ->概念:虚函数重写是多态的条件之一
+// ->多态原理:虚函数地址放到对象的虚表(虚函数表)中，多态指向谁调用本质是运行到对象虚表找要调用的虚函数。
+// 2.虚继承，
+// ->概念:解决菱形继承中的数据几余和二义性
+// ->原理:将虚基类对象放到公共位置(vs是放到整个对象尾部)，虚基表中存偏移量，来计算虚基类对象的位置。
+//
+//总结:记住这里两个地方都用virtual关键字，他们之间没有一点关联，不要联系到一起。
+
+// int&a = b; //引用
+// int*p = &a; //取地址
+//以上都不要混到一起
+
+class A
+{
+public:
+    A(int x = 0) // 构造函数不能作为虚函数
+    {
+        cout << "A" << x << endl;
+    }
+    // 虚函数对应一个vtable（虚函数表），可是这个vtable其实是存储在对象的内存空间的。
+    // 如果构造函数是虚的，就需要通过 vtable来调用，可是对象还没有实例化，也就是内存空间还没有，无法找到vtable，所以构造函数不能是虚函数。
+    // 虚函数的作用在于通过父类的指针或者引用来调用它的时候能够变成调用子类的那个成员函数。而构造函数是在创建对象时自动调用的，不可能通过父类的指针或者引用去调用，因此也就规定构造函数不能是虚函数。
+
+    virtual void printA()
+    {
+        cout << "Hello A" << endl;
+    }
+};
+
+// 虚函数是在基类中使用 virtual 关键字声明的成员函数，它的存在允许在派生类中进行函数的重写（覆盖）。
+// 虚函数可以实现运行时的多态性，即可以在运行时根据对象的类型调用相应的函数，从而实现不同的行为。
+
+class B : virtual public A  // B类大小为8（一个虚表指针）
+{
+public:
+    B(int x = 0)
+    {
+        cout << "B" << x << endl;
+    }
+    void printA() override
+    {
+        cout << "Hello A" << endl;
+    }
+};
+
+int main()
+{
+    B b(1);
+    b.printA();
+    cout<<sizeof(b)<<endl;
+    return 0;
+
+}
+
+//结果：
+// A0
+// B1
+// Hello A
+
+// 不使用虚继承
+class A
+{
+public:
+    A(string s1)
+    {
+        cout << s1 << endl;
+    }
+
+};
+class B : public A
+{
+public:
+    B(string s1, string s2)
+            :A(s1)
+    {
+        cout << s2 << endl;
+    }
+};
+class C :  public A
+{
+public:
+    C(string s1, string s3)
+            :A(s1)
+    {
+        cout << s3 << endl;
+    }
+};
+class D : public B, public C
+{
+public:
+    D(string s1, string s2, string s3, string s4) //这里就和继承顺序有关系了
+            : C(s1, s3), B(s1, s2)    //D 是普通继承，所以D中即存在B也存在C，所以D在构造时会根据继承顺序先去调B的构造，而B会在构造自身时先去调用A的构造，C也一样，所以输出顺序为 A、B、A、C、D
+    {
+        cout << s4 << endl;
+    }
+};
+
+int main()
+{
+    D d("A", "B", "C", "D");
+    return 0;
+}
+**************************************************
+//使用虚继承
+class A   //此时 A 类也被称作 虚基类
+{
+public:
+    A(string s1)
+            :_s1(s1)
+    {
+        cout << s1 << endl;
+    }
+    string _s1;
+};
+class B :virtual public A //B使用了虚继承，B中包含 vbptr(A的虚基表指针)、_s1、_s2
+{
+public:
+    B(string s1, string s2)
+            :A(s1), _s2(s2)
+    {
+        cout << s2 << endl;
+    }
+    string _s2;
+};
+class C : virtual public A //C使用了虚继承，C中包含 vbptr(A的虚基表指针)、_s1、_s3
+{
+public:
+    C(string s1, string s3)
+            :A(s1), _s3(s3)
+    {
+        cout << s3 << endl;
+    }
+    string _s3;
+};
+class D :  public B,public C  //D是普通继承，所以D中包含了一个B(vptr(A的虚基表指针)、_s2)、C(vptr(A的虚基表指针)、_s3)、_s1 和 _s4,
+{
+public:
+    D(string s1, string s2, string s3, string s4)
+    //在这种机制下，不论虚基类在继承体系中出现了多少次，在派生类中都只包含一份虚基类的成员并且虚基类子对象是由最派生类（最后派生出来的类）的构造函数通过调用虚基类的构造函数进行初始化
+//所以这里会先根据D中的 A(s1)去构造D中的A类对象_s1,然后会再次根据继承的顺序依次去构造B和C，因为D中的_s1独有一份(A输出什么只跟A(s1)中传入的s1相关和B、C中的第一参无关)，所以B、C中不会再次去构建_s1,最终输出顺序为 A、B、C、D
+            :C(s4, s3), A(s1), B(s3, s2), _s4(s4)
+    {
+        cout << s4 << endl;
+    }
+    string _s4;
+};
+
+int main()
+{
+    D d("A", "B", "C", "D");
+
+    return 0;
+}
+**************************************************
+//不使用虚继承派生类结构体的大小
+class A
+{
+protected:
+    int _d;
+};
+class B : public A
+{
+protected:
+    int _d1;
+};
+class C : public A
+{
+protected:
+    int _d2;
+};
+class D : public B, public C
+{
+protected:
+    int _d3;
+};
+int main()
+{
+    D c;
+    cout << sizeof(c) << endl;   // 20，因为没使用虚继承，B、C中除了自己原有的成员变量之外还各自继承了A中的成员变量，D继承了B、C后,除了自身的成员变量外还继承了B、C的成员变量,所以它里面有 _d1,_d2,_d1,_d3,_d4
+}
+*************************************************
+class A
+{
+protected:
+    int _d;
+};
+class B :virtual public A  // _d _d1 vbptr
+{
+protected:
+    int _d1;
+};
+class C : virtual public A // _d _d2  vbptr
+{
+protected:
+    int _d2;
+};
+class D : public B, public C // _d  (_d1 vbptr) (_d2 vbptr) _d3
+{
+protected:
+    int _d3;
+};
+int main()
+{
+    D d;  // 可以看出 d 中除了 4个 int 还有两个 vbptr(虚基表指针，一个4字节)   所以共 24个字节
+    cout << sizeof(d) << endl; //24
+}
