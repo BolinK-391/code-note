@@ -1,0 +1,55 @@
+#include <iostream>
+using namespace std;
+
+// 给定一个二叉树, 找到该树中两个指定节点的最近公共祖先。
+//
+// 百度百科中最近公共祖先的定义为：“对于有根树 T 的两个节点 p、q，最近公共祖先表示为一个节点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（一个节点也可以是它自己的祖先）。”
+
+// 题目地址：https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree/description/
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool Find(TreeNode* root,TreeNode*x)
+        {
+            if(root == NULL)
+                return false;
+
+            return root == x || Find(root->left,x) || Find(root->right,x);
+        }
+
+    
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+       
+            if(root == NULL)
+                return NULL;
+            if(root == p || root == q)
+                return root;
+
+            bool pInLeft, pInRight, qInLeft,qInRight;
+
+            pInLeft = Find(root->left,p);
+            pInRight = !pInLeft;
+            qInLeft = Find(root->left,q);
+            qInRight = !qInLeft;
+
+            if((pInLeft && qInRight) || (qInLeft && pInRight))
+                return root;
+
+            if(pInLeft && qInLeft)
+                return lowestCommonAncestor(root->left,p,q);
+
+            if(pInRight && qInRight)
+                return lowestCommonAncestor(root->right,p,q);
+
+            return NULL;
+    }
+};
