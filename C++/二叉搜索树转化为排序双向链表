@@ -64,7 +64,6 @@ public:
 
     TreeNode* Convert(TreeNode* pRootOfTree)
     {
-
         TreeNode* prev = NULL;
         ConvertList(pRootOfTree, prev);
 
