@@ -86,7 +86,7 @@ public:
 
 
 //后序遍历（镜像前序遍历后反转数组）
-class Postorder_Solution {
+class Postorder_Solution_1 {
 public:
     vector<int> postorderTraversal(TreeNode* root)
     {
@@ -113,6 +113,42 @@ public:
         }
 
         reverse(ret.begin(),ret.end());
+        return ret;
+    }
+};
+
+//后序遍历-双指针解法
+class Postorder_Solution_2 {
+public:
+    vector<int> postorderTraversal(TreeNode* root) {
+        vector<int> ret;
+        stack<TreeNode*> st; // 栈（先进后出） 用来储存节点，方便找右子树
+        TreeNode* cur = root;
+        TreeNode* lastNode = nullptr;
+
+        while(cur || !st.empty()) 
+        {
+            // 1、左路节点入栈
+            // 2、再访问左路节点的右子树
+            while(cur)
+            {
+                st.push(cur);
+                lastNode = cur;
+                cur = cur->left;
+            }
+                // 取到左路节点
+                // a.如果左路节点的右为空或者上一个最近访问节点是右子树的根，则表示右子树已经访问过了，可以访问这个节点了
+                // b.否则迭代访问右子树
+            TreeNode*top = st.top();
+            if(top->right == NULL || lastNode == top->right)
+            {
+                ret.push_back(top->val);
+                lastNode = top;
+                st.pop();
+            }
+            else
+                cur = top->right;
+            }
         return ret;
     }
 };
