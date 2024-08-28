@@ -25,7 +25,7 @@ using namespace std;
 // 如何访问这些右子树呢?
 // 再将他们分成左路节点和右树迭代来访问
 
-//前序遍历
+// 前序遍历
 class Preorder_Solution {
 public:
     vector<int> preorderTraversal(TreeNode* root)
@@ -54,7 +54,7 @@ public:
 };
 
 
-//中序遍历（和前序遍历相比入栈点不同）
+// 中序遍历（和前序遍历相比入栈点不同）
 class Inorder_Solution {
 public:
     vector<int> inorderTraversal(TreeNode* root)
@@ -85,7 +85,7 @@ public:
 };
 
 
-//后序遍历（镜像前序遍历后反转数组）
+// 后序遍历（镜像前序遍历后反转数组）
 class Postorder_Solution_1 {
 public:
     vector<int> postorderTraversal(TreeNode* root)
@@ -117,7 +117,7 @@ public:
     }
 };
 
-//后序遍历-双指针解法
+// 后序遍历-双指针解法
 class Postorder_Solution_2 {
 public:
     vector<int> postorderTraversal(TreeNode* root) {
