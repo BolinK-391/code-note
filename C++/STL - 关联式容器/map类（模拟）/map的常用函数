@@ -1,0 +1,7 @@
+map
+1、增	insert + operator[]
+2、删	erase
+3、查	find
+4、改	operator[]
+5、遍历	iterator +范围for
+要注意的是map中存的是pair<k,v>键值对
