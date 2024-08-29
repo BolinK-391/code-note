@@ -1,0 +1,90 @@
+#include <iostream>
+#include <map>
+#include <string>
+using namespace std;
+
+
+class Count {
+public:
+    // 统计次数
+    static void CountMap_1() {
+        string strArr[] = {"麻雀", "虎皮", "牡丹", "牡丹", "麻雀", "牡丹", "牡丹", "和尚", "牡丹", "和尚", "喜鹊",
+                           "虎皮", "牡丹", "虎皮", "虎皮"};
+        map<string, int> countMap;
+        for (auto& str: strArr) {
+            map<string, int>::iterator ret = countMap.find(str);
+            if (ret != countMap.end())
+            {
+                // (*ret).second++;
+                ret->second++;
+            }
+            else
+            {
+                countMap.insert(make_pair(str,1));
+            }
+        }
+        for(auto& e : countMap)
+        {
+            cout << e.first << ":" << e.second << endl;
+        }
+    }
+
+    static void CountMap_2() {
+        string strArr[] = {"麻雀", "虎皮", "牡丹", "牡丹", "麻雀", "牡丹", "牡丹", "和尚", "牡丹", "和尚", "喜鹊",
+                           "虎皮", "牡丹", "虎皮", "虎皮"};
+        map<string, int> countMap;
+        for (auto& str: strArr) {
+            // 1.如果水果没在map中，则插入成功
+            // 2.如果水果已经在map中，插入失败，通过返回值拿到水果所在的节点迭代器，++次数
+            pair<map<string, int>::iterator, bool> ret = countMap.insert(make_pair(str,1));
+            if (ret.second == false)
+            {
+                ret.first->second++;
+            }
+        }
+        for(auto& e : countMap)
+        {
+            cout << e.first << ":" << e.second << endl;
+        }
+    }
+
+    static void CountMap_3() {
+        string strArr[] = {"麻雀", "虎皮", "牡丹", "牡丹", "麻雀", "牡丹", "牡丹", "和尚", "牡丹", "和尚", "喜鹊",
+                           "虎皮", "牡丹", "虎皮", "虎皮"};
+        map<string, int> countMap;
+        for (auto &str: strArr) {
+            // 1、如果该鸟的品种不在map中，则operator[]会插入pair<str,0>返回映射对(次数)的引用进行了++；
+            // 2、如果该鸟的品种在map中，则operator[]返回水果对应的映射对象(次数)的引用，对它++。
+            countMap[str]++;
+        }
+        for(auto& e : countMap)
+        {
+            cout << e.first << ":" << e.second << endl;
+        }
+    }
+    /* map的operator[]三层作用
+       1、插入
+       2、查找k对应的映射对象
+       3、修改k对应的映射对象 */
+
+    /* mapped_type& operator[](const key_type& k)
+    {
+        return (*((this->insert(make_pair(k, mapped_type()))).first)).second;
+    } */
+
+    // 为什么这里不用find是实现呢?
+    // 原因:假设用find，如果map中没有这个k，如何返回?
+    //
+    // 这里用insert
+    // 1、如果k不在map中，则插入pair<k,mapped type()>，再返回映射对象的引用
+    // 2、如果k在map中，则插入失败，返回k所在节点中的映射对象的引用
+};
+
+int main()
+{
+    Count::CountMap_1();
+    cout << endl;
+    Count::CountMap_2();
+    cout << endl;
+    Count::CountMap_3();
+}
