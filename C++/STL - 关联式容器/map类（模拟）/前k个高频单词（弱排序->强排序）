@@ -1,0 +1,32 @@
+#include <iostream>
+#include <map>
+#include <string>
+using namespace std;
+
+
+class Solution {
+public:
+    vector<string> topKFrequent(vector<string>& words, int k) {
+        // 统计出次数
+        map<string, int> countMap;
+        for(auto& e: words){
+            countMap[e]++;
+        }
+
+        // 按次数排序，且通过仿函数控制从大到小
+        multimap<int,string,greater<int>> countsort; 
+        // 遍历出来的数据是按k排序的，因为底层是搜索树，遍历走的树的中序
+        // 默认弱排序less<key_type> 这里改成强排序greater<key_type> 这样前k位就是出现次数最多的单词
+        for(auto& kv :countMap){
+            countsort.insert(make_pair(kv.second,kv.first));
+        }
+
+        vector<string>v;
+        for(auto e:countsort){
+            v.push_back(e.second);
+            if(--k == 0)
+                break;
+        }
+        return v;
+    }
+};
